@@ -16,6 +16,9 @@ const AddLogModal = () => {
         tech,
         date: new Date(),
       };
+      setMessage("");
+      setTech("");
+      setAttention(false);
     }
   };
 
