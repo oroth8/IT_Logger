@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+// import TechSelectOptions from "../techs/TechSelectOptions";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { addLog } from "../../actions/logActions";
 import M from "materialize-css/dist/js/materialize.min.js";
 
-const AddLogModal = () => {
+const AddLogModal = ({ addLog }) => {
   const [message, setMessage] = useState("");
-  const [attention, setAttention] = useState("");
+  const [attention, setAttention] = useState(false);
   const [tech, setTech] = useState("");
 
   const onSubmit = () => {
@@ -16,6 +20,12 @@ const AddLogModal = () => {
         tech,
         date: new Date(),
       };
+
+      addLog(newLog);
+
+      M.toast({ html: `Log added by ${tech}` });
+
+      // Clear Fields
       setMessage("");
       setTech("");
       setAttention(false);
@@ -51,6 +61,7 @@ const AddLogModal = () => {
               <option value="" disabled>
                 Select Technician
               </option>
+              {/* <TechSelectOptions /> */}
             </select>
           </div>
         </div>
@@ -76,7 +87,7 @@ const AddLogModal = () => {
         <a
           href="#!"
           onClick={onSubmit}
-          className="modal-close waves-effect red waves-light btn"
+          className="modal-close waves-effect blue waves-light btn"
         >
           Enter
         </a>
@@ -85,9 +96,13 @@ const AddLogModal = () => {
   );
 };
 
+AddLogModal.propTypes = {
+  addLog: PropTypes.func.isRequired,
+};
+
 const modalStyle = {
   width: "75%",
   height: "75%",
 };
 
-export default AddLogModal;
+export default connect(null, { addLog })(AddLogModal);
